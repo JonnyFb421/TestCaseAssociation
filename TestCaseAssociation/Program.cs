@@ -24,6 +24,7 @@ namespace TestCaseAssociation
 
         static void Main()
         {
+            throw new System.Exception("Blah");
             ValidateEnvironmentVariables();
             var knownAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
 
