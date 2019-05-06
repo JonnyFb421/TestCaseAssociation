@@ -327,7 +327,6 @@ namespace TestCaseAssociation
                         Encoding.ASCII.GetBytes(
                             string.Format("{0}:{1}", "", PersonalAccessToken))));
                 string url = $"{AzureHost}/{AzureProject}/_apis/wit/wiql?api-version=5.0";
-                Console.WriteLine($"The url is: {url}");
 
                 HttpMethod method = new HttpMethod("POST");
 
