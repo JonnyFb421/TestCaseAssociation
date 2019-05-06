@@ -31,6 +31,10 @@ namespace TestCaseAssociation
             // Load assembly and get test methods from all types
            
             string[] files = Directory.GetFiles(Environment.GetEnvironmentVariable("Build_SourcesDirectory"), AutomatedTestDllName, SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                Console.WriteLine(file);
+            }
             string pathToAssembly = files.First();
             Assembly targetAssembly = Assembly.LoadFile(pathToAssembly);
             Type[] allTypesInThisAssembly = targetAssembly.GetTypes();
