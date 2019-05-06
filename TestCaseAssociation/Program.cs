@@ -36,7 +36,34 @@ namespace TestCaseAssociation
                 Console.WriteLine(file);
             }
             string pathToAssembly = files.First();
-            Assembly targetAssembly = Assembly.LoadFile(pathToAssembly);
+
+            try
+            {
+                Assembly targetAssembly = Assembly.LoadFile(pathToAssembly);
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                string errorMessage = sb.ToString();
+                //Display or log the error based on your application.
+            }
+
+
+
             Type[] allTypesInThisAssembly = targetAssembly.GetTypes();
             List<MethodInfo> validTestCases = allTypesInThisAssembly
                 .SelectMany(x => x.GetMethods()
