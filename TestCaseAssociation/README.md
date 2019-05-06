@@ -1,14 +1,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="http://clipart-library.com/images/AibrraarT.png" alt="Logo">
-  </a>
-
   <h3 align="center">Test Case Association</h3>
 
   <p align="center">
-    This project is used in the build pipeline to create associations between automated tests and Azure Devops Test Cases.
+    This project is used in an Azure Devops Pipeline extension, to leverage the build pipeline to create associations between automated tests and Azure Devops Test Cases.
     <br />
   </p>
 </p>
@@ -37,31 +33,18 @@ Using this build task will allow you enable you to do the following:
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Usage  
+Test Case Association executes in two phases controlled by the Dry Run flag.  
 
-Test Case Association executes in two phases: when opening a PR, and when merging a PR.
+### Required Environment Variables  
+```
+AZURE_TOKEN='your_personal_access_token'  
+```
 
-### Opening a PR
-When a PR is opened, Test Case Association will reach out to Azure Devops to validate that the TestCaseIds contain appropriate values.  
+### Dry Run Enabled  
+When a Dry Run is enabled, Test Case Association will reach out to Azure Devops to validate that the TestCaseIds contain appropriate values.    
 This step only does validation, it does NOT create the association in Azure Devops.
 
-PR Pipeline Environment Variables: 
-```
-// REQUIRED
-AZURE_DEVOPS_PAT=your-azure-devops-personal-access-token
-// Optional
-MAX_MISSING_TEST_CASE_IDS=10
-```
+### Dry Run Disabled  
+When a Dry Run is disabled, Test Case Association will create the associations in Azure Devops after running through the validations.  
 
-### Merging a PR
-When a PR is merged, Test Case Association will create the associations in Azure Devops.  
-Note: This step also does the validations, but that will likely change in the future. 
-
-Merge Pipeline Environment Variables: 
-```
-// REQUIRED
-AZURE_DEVOPS_PAT=your-azure-devops-personal-access-token
-IS_STAGING_BUILD=true
-// Optional
-MAX_MISSING_TEST_CASE_IDS=10
-```

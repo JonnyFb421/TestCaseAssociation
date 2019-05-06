@@ -15,14 +15,6 @@ namespace TestCaseAssociation
 {
     class Program
     {
-        //public static List<string> AssociationErrors = new List<string>();
-        //private static string AzureHost = Environment.GetEnvironmentVariable("AZURE_HOST");
-        //private static string AzureProject = Environment.GetEnvironmentVariable("AZURE_PROJECT");
-        //private static string PersonalAccessToken = Environment.GetEnvironmentVariable("AZURE_TOKEN");
-        //private static string AutomatedTestType = Environment.GetEnvironmentVariable("TEST_TYPE");
-        //private static string AutomatedTestDllName = Environment.GetEnvironmentVariable("TEST_DLL");
-        //private static string MaxMissingTestCases = Environment.GetEnvironmentVariable("MAX_MISSING_TEST_CASE_IDS");
-
         public static List<string> AssociationErrors = new List<string>();
         private static string PersonalAccessToken = Environment.GetEnvironmentVariable("AZURE_TOKEN");
         private static string AzureHost;
@@ -34,14 +26,12 @@ namespace TestCaseAssociation
         static void Main(string[] args)
         {
             Console.WriteLine("Startinging test case association");
-
             AzureHost = args[0];
             AzureProject = args[1];
             AutomatedTestType = args[2];
             AutomatedTestDllName = args[3];
             MaxMissingTestCases = args[4];
             bool DryRun = bool.Parse(args[5]);
-
 
             ValidateEnvironmentVariables();
 
@@ -53,9 +43,6 @@ namespace TestCaseAssociation
             string[] files = Directory.GetFiles(Environment.GetEnvironmentVariable("Build_SourcesDirectory"), AutomatedTestDllName, SearchOption.AllDirectories);
             string pathToAssembly = files.First();
             Assembly targetAssembly = Assembly.LoadFrom(pathToAssembly);
-       
-
-
 
             Type[] allTypesInThisAssembly = targetAssembly.GetTypes();
             List<MethodInfo> validTestCases = allTypesInThisAssembly
