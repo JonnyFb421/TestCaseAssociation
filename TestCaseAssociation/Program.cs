@@ -29,8 +29,16 @@ namespace TestCaseAssociation
             var knownAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
 
             // Load assembly and get test methods from all types
-            string pathToAssembly =
-                Path.Combine(Environment.GetEnvironmentVariable("Build_BinariesDirectory"), AutomatedTestDllName);
+           
+            DirectoryInfo hdDirectoryInWhichToSearch = new DirectoryInfo(@"c:\");
+            FileInfo[] filesInDir = hdDirectoryInWhichToSearch.GetFiles("*" + AutomatedTestDllName);
+
+            foreach (FileInfo foundFile in filesInDir)
+            {
+                string pathToAssembly = foundFile.FullName;
+                Console.WriteLine(pathToAssembly);
+            }
+
             Assembly targetAssembly = Assembly.LoadFile(pathToAssembly);
             Type[] allTypesInThisAssembly = targetAssembly.GetTypes();
             List<MethodInfo> validTestCases = allTypesInThisAssembly
