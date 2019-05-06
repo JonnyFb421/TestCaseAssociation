@@ -77,7 +77,6 @@ namespace TestCaseAssociation
             // Create association in Azure Devops
             if (DryRun == false)
             {
-                Console.WriteLine("IS_MASTER_BUILD detected");
                 Console.WriteLine("Reaching out to Azure to create new test case associations");
                 AddTestCaseLinkToVSTSTest(validAssociations);
                 var newAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
@@ -242,7 +241,7 @@ namespace TestCaseAssociation
                     Convert.ToBase64String(
                         Encoding.ASCII.GetBytes(
                             string.Format("{0}:{1}", "", PersonalAccessToken))));
-                string url = $"{Environment.GetEnvironmentVariable("AZURE_HOST")}/{Environment.GetEnvironmentVariable("AZURE_PROJECT")}/_apis/wit/workitems/{testCaseId}?api-version=5.0";
+                string url = $"{AzureHost}/{AzureProject}/_apis/wit/workitems/{testCaseId}?api-version=5.0";
 
                 HttpMethod method = new HttpMethod("GET");
 
