@@ -29,38 +29,12 @@ namespace TestCaseAssociation
             var knownAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
 
             // Load assembly and get test methods from all types
-           
-            string[] files = Directory.GetFiles(Environment.GetEnvironmentVariable("Build_SourcesDirectory"), AutomatedTestDllName, SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-                Console.WriteLine(file);
-            }
-            string pathToAssembly = files.First();
 
-            try
-            {
-                Assembly targetAssembly = Assembly.LoadFile(pathToAssembly);
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                StringBuilder sb = new StringBuilder();
-                foreach (Exception exSub in ex.LoaderExceptions)
-                {
-                    sb.AppendLine(exSub.Message);
-                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
-                    if (exFileNotFound != null)
-                    {
-                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
-                        {
-                            sb.AppendLine("Fusion Log:");
-                            sb.AppendLine(exFileNotFound.FusionLog);
-                        }
-                    }
-                    sb.AppendLine();
-                }
-                string errorMessage = sb.ToString();
-                //Display or log the error based on your application.
-            }
+            string[] files = Directory.GetFiles(Environment.GetEnvironmentVariable("Build_SourcesDirectory"), AutomatedTestDllName, SearchOption.AllDirectories);
+            Console.WriteLine(files.First());
+            string pathToAssembly = files.First();
+            Assembly targetAssembly = Assembly.LoadFrom(pathToAssembly);
+       
 
 
 
