@@ -33,19 +33,23 @@ namespace TestCaseAssociation
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Startinging test case association");
+
             AzureHost = args[0];
             AzureProject = args[1];
             AutomatedTestType = args[2];
             AutomatedTestDllName = args[3];
             MaxMissingTestCases = args[4];
 
+
             ValidateEnvironmentVariables();
+
+            Console.WriteLine("Getting known test cases from Azure");
             var knownAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
 
             // Load assembly and get test methods from all types
-
+            Console.WriteLine($"Finding all test methods from {AutomatedTestDllName}");
             string[] files = Directory.GetFiles(Environment.GetEnvironmentVariable("Build_SourcesDirectory"), AutomatedTestDllName, SearchOption.AllDirectories);
-            Console.WriteLine(files.First());
             string pathToAssembly = files.First();
             Assembly targetAssembly = Assembly.LoadFrom(pathToAssembly);
        
@@ -59,10 +63,12 @@ namespace TestCaseAssociation
                             m.GetCustomAttributes(typeof(TheoryAttribute), true).Length > 0)).ToList();
 
             // Creates dictionary containing `test method name: test case id`
+            Console.WriteLine($"Getting TestCaseId attributes from test methods");
             Dictionary<string, string> validAssociations = ProcessTestMethods(validTestCases);
 
 
             // Test Case Validation
+            Console.WriteLine($"Validating TestCaseIds");
             CheckForMissingTestCaseAssociations(validAssociations);
             CheckForDuplicateTestCaseIds(validAssociations);
             CheckForInvalidTestCaseIds(validAssociations);
@@ -70,6 +76,8 @@ namespace TestCaseAssociation
             // Create association in Azure Devops
             if (Environment.GetEnvironmentVariable("IS_STAGING_BUILD") != null)
             {
+                Console.WriteLine("IS_MASTER_BUILD detected");
+                Console.WriteLine("Reaching out to Azure to create new test case associations");
                 AddTestCaseLinkToVSTSTest(validAssociations);
                 var newAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
                 var deltas = GetOrphanedTestCaseIds(knownAssociatedTestCaseIds, newAssociatedTestCaseIds);
