@@ -40,6 +40,7 @@ namespace TestCaseAssociation
             AutomatedTestType = args[2];
             AutomatedTestDllName = args[3];
             MaxMissingTestCases = args[4];
+            bool DryRun = bool.Parse(args[5]);
 
 
             ValidateEnvironmentVariables();
@@ -74,7 +75,7 @@ namespace TestCaseAssociation
             CheckForInvalidTestCaseIds(validAssociations);
 
             // Create association in Azure Devops
-            if (Environment.GetEnvironmentVariable("IS_STAGING_BUILD") != null)
+            if (DryRun == false)
             {
                 Console.WriteLine("IS_MASTER_BUILD detected");
                 Console.WriteLine("Reaching out to Azure to create new test case associations");
