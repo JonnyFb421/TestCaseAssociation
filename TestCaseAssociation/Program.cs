@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using TestCaseAttributes.TestCaseId;
 using Xunit;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace TestCaseAssociation
@@ -28,7 +29,9 @@ namespace TestCaseAssociation
             var knownAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
 
             // Load assembly and get test methods from all types
-            Assembly targetAssembly = Assembly.LoadFile(AutomatedTestDllName);
+            string pathToAssembly =
+                Path.Combine(Environment.GetEnvironmentVariable("SourcesDirectory"), AutomatedTestDllName);
+            Assembly targetAssembly = Assembly.LoadFile(pathToAssembly);
             Type[] allTypesInThisAssembly = targetAssembly.GetTypes();
             List<MethodInfo> validTestCases = allTypesInThisAssembly
                 .SelectMany(x => x.GetMethods()
