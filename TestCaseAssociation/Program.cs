@@ -15,17 +15,31 @@ namespace TestCaseAssociation
 {
     class Program
     {
-        public static List<string> AssociationErrors = new List<string>();
-        private static string AzureHost = Environment.GetEnvironmentVariable("AZURE_HOST");
-        private static string AzureProject = Environment.GetEnvironmentVariable("AZURE_PROJECT");
-        private static string PersonalAccessToken = Environment.GetEnvironmentVariable("AZURE_TOKEN");
-        private static string AutomatedTestType = Environment.GetEnvironmentVariable("TEST_TYPE");
-        private static string AutomatedTestDllName = Environment.GetEnvironmentVariable("TEST_DLL");
-        private static string MaxMissingTestCases = Environment.GetEnvironmentVariable("MAX_MISSING_TEST_CASE_IDS");
+        //public static List<string> AssociationErrors = new List<string>();
+        //private static string AzureHost = Environment.GetEnvironmentVariable("AZURE_HOST");
+        //private static string AzureProject = Environment.GetEnvironmentVariable("AZURE_PROJECT");
+        //private static string PersonalAccessToken = Environment.GetEnvironmentVariable("AZURE_TOKEN");
+        //private static string AutomatedTestType = Environment.GetEnvironmentVariable("TEST_TYPE");
+        //private static string AutomatedTestDllName = Environment.GetEnvironmentVariable("TEST_DLL");
+        //private static string MaxMissingTestCases = Environment.GetEnvironmentVariable("MAX_MISSING_TEST_CASE_IDS");
 
-        static void Main()
+        public static List<string> AssociationErrors = new List<string>();
+        private static string PersonalAccessToken = Environment.GetEnvironmentVariable("AZURE_TOKEN");
+        private static string AzureHost;
+        private static string AzureProject;
+        private static string AutomatedTestType;
+        private static string AutomatedTestDllName;
+        private static string MaxMissingTestCases;
+
+        static void Main(string[] args)
         {
-            ValidateEnvironmentVariables();
+            AzureHost = args[0];
+            AzureProject = args[1];
+            AutomatedTestType = args[2];
+            AutomatedTestDllName = args[3];
+            MaxMissingTestCases = args[4];
+
+            //ValidateEnvironmentVariables();
             var knownAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
 
             // Load assembly and get test methods from all types
