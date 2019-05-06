@@ -39,7 +39,7 @@ namespace TestCaseAssociation
             AutomatedTestDllName = args[3];
             MaxMissingTestCases = args[4];
 
-            //ValidateEnvironmentVariables();
+            ValidateEnvironmentVariables();
             var knownAssociatedTestCaseIds = GetKnownAssociationsFromAzure();
 
             // Load assembly and get test methods from all types
@@ -87,35 +87,35 @@ namespace TestCaseAssociation
             if (AzureHost == null)
             {
                 error_message =
-                    "Missing required environment variable: AZURE_HOST." +
+                    "Missing required configuration setting: AZURE_HOST." +
                     "\nExample: https://goatwranglers.visualstudio.com";
                 throw new System.Exception(error_message);
             }
             if (AzureProject == null)
             {
                 error_message =
-                    "Missing required environment variable: AZURE_PROJECT." +
+                    "Missing required configuration setting: AZURE_PROJECT." +
                     "\nExample: GWrangler";
                 throw new System.Exception(error_message);
             }
             if (PersonalAccessToken == null)
             {
                 error_message =
-                    "Missing required environment variable: AZURE_TOKEN." +
+                    "Missing required configuration setting: AZURE_TOKEN." +
                     "\nExample: hujikm4324uhyybhi112dsfasfdsaf3424jioij2dsfadfsdafds";
                 throw new System.Exception(error_message);
             }
             if (AutomatedTestType == null)
             {
                 error_message =
-                    "Missing required environment variable: TEST_TYPE." +
+                    "Missing required configuration setting: TEST_TYPE." +
                     "\nExample: UI";
                 throw new System.Exception(error_message);
             }
             if (AutomatedTestDllName == null)
             {
                 error_message =
-                    "Missing required environment variable: TEST_DLL." +
+                    "Missing required configuration setting: TEST_DLL." +
                     "\nExample: MyProject.dll";
                 throw new System.Exception(error_message);
             }
