@@ -262,7 +262,7 @@ namespace TestCaseAssociation
         {
             bool needToChange = true;
             JObject workItem = GetTestCaseWorkItemById(testCaseId);
-            if (workItem["fields"]["Microsoft.VSTS.TCM.AutomatedTestName"].ToString() == testName)
+            if (workItem != null && workItem["fields"]["Microsoft.VSTS.TCM.AutomatedTestName"].ToString() == testName)
             {
                 needToChange = false;
             }
